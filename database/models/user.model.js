@@ -1,9 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../dbConnection.js";
-import {postModel} from "./post.model.js";
-import { commentModel } from "./comment.model.js";
 
-const userModel = sequelize.define(
+export const userModel = sequelize.define(
     'user',
     {
         username:{
@@ -22,7 +20,3 @@ const userModel = sequelize.define(
         timestamps:false
     }
 )
-
-
-
-export default userModel
