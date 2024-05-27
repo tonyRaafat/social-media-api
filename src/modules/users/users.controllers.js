@@ -16,14 +16,40 @@ export async function signup(req, res, next) {
 export async function login(req, res, next) {
     try {
         const { email, password } = req.body
-        const user = await userModel.findOne({ where: { email: email }})
+        const user = await userModel.findOne({ where: { email: email } })
         if (user !== null) {
-            const result = await bcrypt.compare(password, user.dataValues.password)
-            if (!result) {
+            const match = await bcrypt.compare(password, user.dataValues.password)
+            if (!match) {
                 return res.status(400).send({ message: "Wrong password" })
             }
-            delete user.dataValues.password
-            return res.json({ message: "Success",user: user.dataValues })
+            user.loggedIn = true
+            await user.save()
+            let data = structuredClone(user);
+            delete data.dataValues.password
+            return res.json({ message: "Success", user: data.dataValues })
+        } else {
+            return res.status(404).send({ message: "User not Found" })
+        }
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+export async function logout(req, res, next) {
+    try {
+        const { email, password } = req.body
+        const user = await userModel.findOne({ where: { email: email } })
+        if (user !== null) {
+            const match = await bcrypt.compare(password, user.dataValues.password)
+            if (!match) {
+                return res.status(400).send({ message: "Wrong password" })
+            }
+            user.loggedIn = false
+            await user.save()
+            let data = structuredClone(user);
+            delete data.dataValues.password
+            return res.json({ message: "Success", user: data.dataValues })
         } else {
             return res.status(404).send({ message: "User not Found" })
         }

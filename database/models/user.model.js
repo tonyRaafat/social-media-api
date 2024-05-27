@@ -15,6 +15,11 @@ export const userModel = sequelize.define(
         password:{
             type:DataTypes.STRING(100),
             allowNull:false,
+        },
+        loggedIn:{
+            type:DataTypes.BOOLEAN,
+            allowNull:false,
+            defaultValue:false
         }
     },{
         timestamps:false
