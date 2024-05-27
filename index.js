@@ -6,8 +6,10 @@ import errorHandler from "./utils/errorHanler.utils.js";
 
 const app = express()
 const port = 3000
+
 app.use(express.json())
-app.use('/users',userRouter)
+
+app.use('/users', userRouter)
 
 app.all('*', (req, res, next) => {
     const error = new Error(`Cannot ${req.method} ${req.originalUrl}`)
@@ -17,6 +19,7 @@ app.all('*', (req, res, next) => {
 
 app.use(errorHandler)
 
-sequelize.sync();
+sequelize.sync().then(() => {
+    app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+});
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
