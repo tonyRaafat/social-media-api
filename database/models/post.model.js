@@ -8,7 +8,9 @@ export const postModel = sequelize.define('post',{
     },
     content:{
         type:DataTypes.STRING
-    }
+    },
+},{
+    paranoid:true
 })
 
 

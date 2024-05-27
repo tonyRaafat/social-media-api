@@ -35,11 +35,17 @@ export async function getPostById(req, res, next) {
 
 export async function updatePost(req, res, next) {
     try {
-        const { title, content } = req.body;
+        const { title, content, authorId } = req.body;
         const post = await postModel.findByPk(req.params.id);
-
+        if(!authorId){
+            return res.status(400).json({ error: 'body must contain authorId' });
+        }
+        
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
+        }
+        if (post.author !== authorId) {
+            return res.status(401).json({ error: 'unauthorized access' });
         }
         if (title) {
             post.title = title;
@@ -57,13 +63,21 @@ export async function updatePost(req, res, next) {
 
 export async function deletePost(req, res, next) {
     try {
+        const { authorId } = req.body
         const post = await postModel.findByPk(req.params.id);
+        console.log(post);
+        if(!authorId){
+            return res.status(400).json({ error: 'body must contain authorId' });
+        }
 
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
         }
+        if (post.author !== authorId) {
+            return res.status(401).json({ error: 'unauthorized access' });
+        }
         await post.destroy();
-        res.status(204).json({message:"delete is successful"});
+        res.status(204).json({ message: "delete is successful" });
     } catch (error) {
         next(error)
     }
