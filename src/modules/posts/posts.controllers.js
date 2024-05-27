@@ -22,7 +22,7 @@ export async function getPosts(req, res, next) {
 
 export async function getPostById(req, res, next) {
     try {
-        const post = await postModel.findByPk(req.params.id, { include: 'author' });
+        const post = await postModel.findByPk(req.params.id);
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
         }
