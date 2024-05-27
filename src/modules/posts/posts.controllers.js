@@ -1,6 +1,4 @@
 import { postModel } from "../../../database/models/post.model.js";
-import { userModel } from "../../../database/models/user.model.js";
-
 
 export async function createPost(req, res, next) {
     try {
@@ -64,7 +62,6 @@ export async function deletePost(req, res, next) {
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
         }
-
         await post.destroy();
         res.status(204).json({message:"delete is successful"});
     } catch (error) {
