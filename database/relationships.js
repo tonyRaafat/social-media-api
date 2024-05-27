@@ -3,6 +3,10 @@ import { postModel } from "./models/post.model.js"
 import userModel from "./models/user.model.js"
 
 userModel.hasMany(postModel,{
+    foreignKey:{
+      name:"author",
+      allowNull:false
+    },
     onDelete:'CASCADE',
     onUpdate:'CASCADE',
     
@@ -17,16 +21,12 @@ postModel.hasMany(commentModel,{
     onUpdate:'CASCADE'
 })
 
-postModel.belongsTo(userModel,{foreignKey: {
-    name:"userId",
-    allowNull: false,
-  }})
-
-commentModel.belongsTo(postModel,{foreignKey: {
-    name:"postId",
+postModel.belongsTo(userModel,{
+  foreignKey:{
+    name:"author",
     allowNull:false
-  }})
-commentModel.belongsTo(userModel,{foreignKey: {
-    name:"userId",
-    allowNull: false,
-  }})
+  }
+})
+
+commentModel.belongsTo(postModel)
+commentModel.belongsTo(userModel)
