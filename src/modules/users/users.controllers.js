@@ -70,9 +70,7 @@ export async function getUserWithPostAndComments(req, res, next) {
                 // as: 'posts',
                 where: { id: postid },
                 include: [{
-                    model: commentModel,
-                    // as: 'comments',
-                    include: [{ model: userModel,  attributes: ['id', 'username', 'email'] }]
+                    model: commentModel
                 }]
             }]
         });
