@@ -4,7 +4,7 @@ import { userModel } from "./models/user.model.js"
 
 userModel.hasMany(postModel,{
     foreignKey:{
-      name:"author",
+      name:"authorId",
       allowNull:false
     },
     onDelete:'CASCADE',
@@ -22,8 +22,9 @@ postModel.hasMany(commentModel,{
 })
 
 postModel.belongsTo(userModel,{
+  as:'author',
   foreignKey:{
-    name:"author",
+    name:"authorId",
     allowNull:false
   }
 })
