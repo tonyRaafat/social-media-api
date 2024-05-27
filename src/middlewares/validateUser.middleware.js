@@ -13,8 +13,8 @@ export async function validateUserSignUp(req, res, next) {
         } else {
             next()
         }
-    } catch (err) {
-        next(err)
+    } catch (error) {
+        next(error)
     }
 
 }
@@ -27,8 +27,8 @@ export async function validateLoginBody(req, res, next) {
         }
         next()
 
-    } catch (err) {
-        next(err)
+    } catch (error) {
+        next(error)
     }
 
 }
